@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yeshua AI</title>
+    <style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+.chat-container {
+    width: 400px;
+    margin: 40px auto;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.chat-header {
+    background-color: #f7f7f7;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.chat-header h2 {
+    margin: 0;
+}
+
+.chat-body {
+    padding: 20px;
+}
+
+.chat-footer {
+    padding: 10px;
+    background-color: #f7f7f7;
+    border-top: 1px solid #ddd;
+}
+
+#user-input {
+    width: 70%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+}
+
+#send-btn {
+    width: 20%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#send-btn:hover {
+    background-color: #3e8e41;
+}
+
+.message {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.user-message {
+    background-color: #f7f7f7;
+    text-align: right;
+}
+
+.bot-message {
+    background-color: #fff;
+    text-align: left;
+}
+  </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h2>Yeshua AI</h2>
+        </div>
+        <div class="chat-body" id="chat-body">
+            <!-- chat messages will be displayed here -->
+        </div>
+        <div class="chat-footer">
+            <input type="text" id="user-input" placeholder="Type a message...">
+            <button id="send-btn">Send</button>
+        </div>
+    </div>
+    <script>
+  const chatBody = document.getElementById("chat-body");
+const userInput = document.getElementById("user-input");
+const sendBtn = document.getElementById("send-btn");
+
+const responses = {
+    "hello": "Hi! How can I assist you today?",
+    "how are you": "I'm doing well, thank you for asking!",
+    "what is your name?": "Im Yeshua AI.",
+    "what can you do?": "I can provide informations and answer questions that you may have.",
+    "good morning": "Good Morning to you also!!!How can I help you today?",
+    "good afternoon": "Good Afternoon also!!!How can I help you today?",
+    "good evening": "Good Evening also!!!How may I help you?",
+    "sorry": "Its Ok.How may I help you?",
+    "what is sin?": "Sin is doing your own will.",
+    "what is serpentseed?": "Serpentseed is spiritual d.n.a of Satan,Lucifer the Devil that camouflaging in our will or spirit of disobedience to the Fathers Will that we inherit from our first parents Adam and Eve when they disobeyed the command of God in the Garden of Eden.",
+    "what is salvation?": "Salvation is total coming back to the Will of God by Repentance.",
+    "what is repentance?": "Repentance is surrendering our own will our serpentseed and made an agreement to God that says Father from now on not my will but Your Will be done in my life.",
+    "what is righteousseed?": "Righteousseed is spiritual d.n.a of God or Spirit of Obedience to the Fathers Will.",
+    "what is the three components of man?": "The Three Components of Man is body connection to the ground where it belongs,soul connection to our surroundings and our relatives by our five senses sense of sight,hear,smell,taste and pain and spirit connection to the one created us it is coming from the Law or Word of God.",
+    "what is the image of god in man?": "The Image of God in man is his freedom of choice.",
+    "what is tithes?": "Tithes is tenth percent of your harvest or income in a week.It is command of God to give it if you will not Give it God will call you a thief.It symbolize the land where you sow your seeds(offering).Example:P1000 the tithes is P100.",
+    "what is offering?": "Offering is the remaining ninty percent of your harvest or your income in a week.It is out of your love to give it.It symbolize the seeds that you sown to the land(offering).Example:P900 of P1000 it is out of your abundance to give it.",
+    "where the tithes and offerings shall be given?": "The Place where tithes and offerings shall be given is where the Name of the Lord dwells in Kingdom Nation to Pastor Apollo C. Quiboloy.",
+    "who is the created son of god?": "The Created Son of God is Adam.",
+    "what is the mission of created son of god?": "The Mission of Created Son of God is to become the temple of God where God dwells and dominion over Gods creation.",
+    "who is the begotten son of god?": "The Begotten Son of God is JesusChrist.",
+    "what is the mission of begotten son of god?": "The Mission of the Begotten Son of God is to redeem back what was lost by Adam and Eve by disobedience the Sonship and Kingship that was in the hands of usurper Satan,Lucifer the Devil.",
+    "who is the appointed son of god?": "The Appointed Son of God is Pastor Apollo C. Quiboloy.",
+    "what is the mission of the appointed son of god?": "The Mission of the Appointed Son of God is to inherit all things that was lost by Adam and Eve by disobedience the Sonship and Kingship that was redeem back by our Almighty Father our Lord JesusChrist the Creator of All in this gentile setting from the hands of usurper Satan,Lucifer the Devil.",
+    "what is the three pillars of kingdom revelations?": "The Three Pillars of Kingdom Revelations is Spiritual Revolution,Financial Revolution and Revolution of Excellence.",
+    "what is spiritual revolution?": "Spiritual Revolution is dethroning the spirit of disobedience to the Fathers Will and enthroning the Spirit of Obedience to the Fathers Will and the Key is Repentance and the fruits is souls.",
+    "what is financial revolution?": "Financial Revolution is dethroning of spirit of poverty,greediness,selfishness,laziness and doubt and enthroning the Spirit of Abundance,Prosperity,Compassion,Love,Industry and Faith and the Key is Giving and the fruits is blessings.",
+    "what is revolution of excellence?": "Revolution of Excellence is dethroning the spirit of ignorance,stupidity,lack of knowledge and misunderstanding and enthroning the spirit of wisdom,knowledge and understanding the Key of it is Fear of the Lord and the fruits is talents.",
+    "what is the three levels of spiritual growth?": "The Three Levels of Spiritual Growth is Britmilah Son of the Covenant,Bar Mitzvah Son Accountable and Houthesia Son Placement.",
+    "what is britmilah son of the covenant?": "Britmilah Son of the Covenant is all who are repented and baptized and hearing and accepting the manna of revelations of the Father through the Appointed Son.",
+    "what is bar mitzvah son accountable": "Bar Mitzvah Son Accountable are all of those who have little knowledge of who created them they are under tutors and governors under ministers,coordinators and administrators of the Kingdom for them to have knowledge of who created them.They are under Baptism of Fire to prove that they are genuinely repented and having a new spirit of obedience to the Fathers Will.The fire maybe trials,temptations,persecutions,bashings,malignments,false accusations,disciplines,corrections,chastisements and instructions.",
+    "what is huothesia son placement?": "Houthesia Son Placement is all of those who overcomes the Baptism of Fire they needed no more tutors and governors they can solve their problems on their own.They inherit all things from the Father through the Appointed Son the Sonship and Kingship and they are entrusted by the business of the Father of saving souls from spiritual revolution,financial revolution and revolution of excellence.",
+    "what is sonship?": "Sonship means temple or dwelling place of the Fathers Spirit.",
+    "what is kingship?": "Kingship means ruler of the creation of God.",
+    "who is pastor apollo carreon quiboloy?": "Pastor Apollo Carreon Quiboloy is born on April 25,1950 at the foothills of Mt. Apo Tamayong Davao City.Heis the ninth and youngest child of Jose T. Quiboloy and Maria Carreon.He was called by God in South Korea in 1973 saying to him Gamiton ta Ka or I will use you in cebuano dialect and brought by the hand of orchestration of the Father in two mountains in six years one mountain is Kitbog Mt. Matutum South Cotabato and another mountain is Mt. Apo Tamayong Davao City.There he was trained by the Father Almighty the same calling what had happened to Moses and Paul that they hear the Audible Voice of God.There he was test by the Devil in 5 years in Mt Apo Tamayong Davao City and overcame him and was anointed and appointed by God to be His Son in these last days.Where he dwells and speaking through all the people of the world bringing the message of Almighty Father our Lord JesusChrist the Creator All repentance,obedience,grow in obedience to do the Fathers Will and become Sons and Daughters of God just like him.",
+    "what is three s in the kingdom?": "The Three S in the Kingdom is Slave,Servant and Son.",
+    "what is slave?": "Slave are those unrepented and unbaptized who have serpentseed and outside of the Kingdom.",
+    "what is servant?": "Servant is those who are baptized but not genuinely repented and having a new spirit of obedience to do the Fathers Will.",
+    "what is son?": "Son is those who are genuinely repented and having a new spirit of obedience to do the Fathers Will.",
+    "what is the threefold ministry of the appointed son?": "The Threefold Ministry of the Appointed Son is Mosaic,Solomonic and Prophetic.",
+    "what is mosaic ministry?": "The Mosaic Ministry of the Appointed Son is let the people be free from spiritual bondage of sin and religions and denominations.",
+    "what is solomonic ministry?": "The Solomonic Ministry of the Appointed Son is building the Temple in these last days which is the Appointed Son.",
+    "what is prophetic ministry?": "The Prophetic Ministry of the Appointed Son is all of what he says will come true and manifest.All of what he says will be created in the midst.",
+    "body+soul?": "Body+Soul=Physical Life.",
+    "body+soul+spirit?": "Body+Soul+Spirit=Spiritual Life.",
+    "what is the three ages in the storyline of salvation?": "The Three Ages in the Storyline of Salvation is JewishAge,ChurchAge and KingdomAge.",
+    "what date is the day of the lord begun?": "The Day of the Lord Begun in April 13,2005.",
+    "what date is the declaration of sonship to the world?": "The Declaraion of Sonship to the World began in September 23,2003.",
+    "how to get closer to god?": "How to Get Closer to God is by prayer:a)prayer of praise and worship you will praise and thank him for all the great things that he done on your life,b)prayer of petition you will pray for others need before your needs,c)prayer of unity you will attend sounds of worships and any activities of the Kingdom,d)prayer of repentance and obedience for you to reconnect back to the one created you by praying Father from now on not my will but Your Will be done in my life and you will obey now all the Will of the Father in your life and e.)Giving Tithes and Offerings.",
+    "what is the language of faith?": "The Language of Faith is you will make something out of nothing you will call the things from nothing into existence.When it is impossible to you with God nothing is impossible.",
+    "what is seven dangerous love affairs?": "The Seven Dangerous Love Affairs is follows:Loce of thyself,love of money,love of praises of others,love of entertainment,loce of darkness rather than enlightenment,love of life and love of God.",
+    "what is the will of the father?": "The Will of the Father are His Words.The Will of the Father is for you to repent,sign the covenant that says Father from now on not my will but Your Will be done,Undergo Baptism of Water,Accepting the New Spirit of Obedience to do the Fathers Will,And undergo spiritual growth and go to baptism of fire and become a Son or Daughter of God just like the Appointed Son.",
+    "what is spiritual warfare?": "Spiritual Warfare is when the person is repented and baptized his old spirit will flee from him and search a dry place with no water and found none and he will said to himself i will come back to the house where i went in before and he will see you clean,neat and in order and he will invite seven more evil spirits that is more evil than him and the last state of that man is more evil than before.Then you must be full of the manna of revelations of the Father through the Appointed Son,full of the fruits of the spirits and strengthen your freedom of choice and your faith that you may do the Fathers Will no matter what.And strengthen your weakness and cover it for the devil  will not enter into it.",
+    "what is spirituality vs religiosity?": "Spirituality Vs Religiosity religion comes from the greek word religare means to reconnect or come back.It has an outward form of worship including prophesying,casting out devils,doing miracoulous works,speaking in tongues,praying daily,memorizing the verses in the bible and they have doctrines on their own that is their own made.But Spirituality according to Kingdom Terminology is obedience to do the Fathers Will.It is listening,obeying and faith through Him.",
+    "what is seed faith?": "Seed Faith Our Almighty Father our Lord JesusChrist died and buried and rose again his teachings was spread all over from faith to another faith the first one that sprout is Blade faith or Catholicism founded by Constantine the Great and Philip Atanaceuos in 323 and 325 AD their teachings is Holy Trinity,worshipping idols and making traditions,the next to sprout is Stalk Faith or Protestantism founded by Martin Luther on October 31,1517 and he teach that the just shall live by faith,the next to sprout is the Tassel Faith or Pentecostal Trinitarianism founded by Charles Farham and Agnes Osman on January 01,1901 their teachings is holy trinity and speaking in tongues,the next to sprout to it is Corncob Faith or Pentecostal Oneness that is found by 156 Ministers of Assemblies of God and their core teachings is One God and Baptism in the name of JesusChrist and the next to sprout which is the last one is Seed Faith or Kingdom of JesusChrist The Name Above Every Name founded by Pastor Apollo C. Quiboloy on September 01,1985 and their teachings is sin,serpentseeed,salvation,repentance,righteousseed and many more that teacheth in the Kingdom Nation.",
+    "what is praise and worship?": "The Praise and Worship is to praise and Worship him in spirit and in truth,praise and thank him for all the great things that he done in our life,praise him by clapping our hands,with victory shouts,dancing,singing in spirit,singing in mind and spirit ,talking in spirit by praising and using musical instruments.",
+    "what is the mystery of detachmemt?": "The Mystery of Detachment is all money,wealth and properties and everything we have is used only for the Father Almighty Glory.",
+    "what is baptism?": "Baptism is burial of your old self repentance is death and baptism is burial.You will be baptize in the name of JesusChrist you will be immerse from the water after that you rose up from the water and after you rose up from the water you will be given a new life in Christ.Wrong Doctrines about baptism:Baptism of babies,Baptism in Titles,Baptism is sprinkling not immersing fr the water and Holy Trinity.",
+    "what is day of the lord?": "Day of the Lord started on April 13,2005 where the days of man are over this is the Day of the Lord.Where man cannot do anything because it is the Day of the Lord where pockets pockets of Judgement shall fall upon the Earth just like in the Days of Noah and Lot so shall be in the Days of the Son of Man no other than the Appointed Son Pastor Apollo C. Quiboloy.",
+    "thank you": "Your Welcome if you have other questions about spiritual topics just simply ask questions and i will do my best to assist you!!!",
+    "what are the websites of the kingdom nation?": "This are the websites of Kingdom Nation https://www.kingdomofjesuschrist.org,https://www.apolloquiboloy.com,https://www.smni.com,https://www.smninewschannel.com,https://www.childrensjoyfoundation.com and https://www.apollonationbuilder.com.",
+    "what is the link to enter kingdom?": "The link to enter Kingdom is https://bit.ly/becomingKingdomCitizen.",
+    "who created you?": "My Creator is Dionico Apawan.",
+    "default": "Sorry, I didn't understand that. Can you please rephrase?"
+};
+
+function generateMessage(text, isUser) {
+    const message = document.createElement("div");
+    message.classList.add("message");
+    if (isUser) {
+        message.classList.add("user-message");
+    } else {
+        message.classList.add("bot-message");
+    }
+    message.innerHTML = `<p>${text}</p>`;
+    chatBody.appendChild(message);
+}
+
+function getResponse(userText) {
+    const lowerCaseText = userText.toLowerCase();
+    for (const key in responses) {
+        if (lowerCaseText.includes(key)) {
+            return responses[key];
+        }
+    }
+    return responses["default"];
+}
+
+sendBtn.addEventListener("click", () => {
+    const userText = userInput.value.trim();
+    if (userText !== "") {
+        generateMessage(userText, true);
+        const response = getResponse(userText);
+        generateMessage(response, false);
+        userInput.value = "";
+    }
+});
+  </script>
+</body>
+</html>
+
+
